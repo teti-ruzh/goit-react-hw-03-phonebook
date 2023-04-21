@@ -13,6 +13,25 @@ class App extends Component {
     filter: '',
   }
 
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (contacts) {
+      this.setState({ contacts: contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (nextContacts !== prevContacts) {
+      localStorage.setItem('contacts', JSON.stringify(nextContacts));
+    }
+
+  }
+
+
   checkDuplicate = newName => {
     return this.state.contacts.find(({ name }) => name === newName);
   };
